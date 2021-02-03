@@ -15,12 +15,12 @@
   <button onclick="callToNode(document.getElementById('otherPeerId').value)">Вызов</button>
 
   <br>
-  <video id=myVideo muted="muted" width="400px" height="auto"></video>
+  <video id=myVideo muted="muted" width="400px" height="auto" autoplay></video>
   <div id=callinfo></div>
-  <video id=remVideo width="400px" height="auto"></video>
+  <video id=remVideo width="400px" height="auto" autoplay></video>
 
   <script>
-    alert(3);
+    alert(4);
     var callOptions = {
       'iceServers': [
         { url: 'stun:stun01.sipphone.com' },
@@ -99,20 +99,20 @@
     function callToNode(peerId) { //вызов
       navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(function (mediaStream) {
         var video = document.getElementById('myVideo');
-        peercall = peer.call(peerId/*, mediaStream*/);
-        peercall.on('stream', function (stream) { //нам ответили, получим стрим
-          // setTimeout(function () {
-          //   document.getElementById('remVideo').srcObject = peercall.remoteStream;
-          //   document.getElementById('remVideo').onloadedmetadata = function (e) {
-          //     document.getElementById('remVideo').play();
-          //   };
-          // }, 1500);
-        });
+        peercall = peer.call(peerId, mediaStream);
+        // peercall.on('stream', function (stream) { //нам ответили, получим стрим
+        //   setTimeout(function () {
+        //     document.getElementById('remVideo').srcObject = peercall.remoteStream;
+        //     document.getElementById('remVideo').onloadedmetadata = function (e) {
+        //       document.getElementById('remVideo').play();
+        //     };
+        //   }, 1500);
+        // });
         //  peercall.on('close', onCallClose);				  
-        // video.srcObject = mediaStream;
-        // video.onloadedmetadata = function (e) {
-        //   video.play();
-        // };
+        video.srcObject = mediaStream;
+        video.onloadedmetadata = function (e) {
+          video.play();
+        };
       }).catch(function (err) { console.log(err.name + ": " + err.message); });
     }
   </script>
