@@ -15,9 +15,9 @@
   <button onclick="callToNode(document.getElementById('otherPeerId').value)">Вызов</button>
 
   <br>
-  <video id=myVideo muted="muted" width="400px" height="auto" autoplay></video>
+  <video id=myVideo muted="muted" width="400px" height="auto" autoplay style="display: none;" controls></video>
   <div id=callinfo></div>
-  <video id=remVideo width="400px" height="auto" autoplay controls></video>
+  <video id=remVideo width="400px" height="auto" autoplay controls style="display: none;"></video>
 
   <script>
     alert(9);
@@ -91,6 +91,7 @@
           document.getElementById('remVideo').onloadedmetadata = function (e) {
             // и запускаем воспроизведение когда объект загружен
             document.getElementById('remVideo').play();
+            document.getElementById('remVideo').style.display = 'block;';
           };
         }, 1500);
 
@@ -114,6 +115,7 @@
         video.srcObject = mediaStream;
         video.onloadedmetadata = function (e) {
           video.play();
+          video.style.display = 'block';
         };
       }).catch(function (err) { console.log(err.name + ": " + err.message); });
     }
