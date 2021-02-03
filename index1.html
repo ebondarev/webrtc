@@ -5,21 +5,22 @@
   <meta charset="utf-8" />
   <title>Peer</title>
   <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-  <script>window.onerror = alert;</script>
 </head>
 
 <body>
-  <div id="peer-id">Id: </div>
-  <div>
-    <input type="text" placeholder="input id" id="input-id"></input>
-    <button id="btn-connect">Connect</button>
-  </div>
-  <video id="player"></video>
-  <div id="log-info"></div>
-  <div id="log-error">Errors:</div>
+  <p>
+  <h3>ID: <span id="myid"></span></h3>
+  </p>
+  <input id="otherPeerId" type="text" placeholder="otherPeerId">
+  <button id="btn-call">Вызов</button>
+
+  <br>
+  <video id=myVideo muted="muted" width="400px" height="auto" autoplay style="display: none;" controls></video>
+  <div id=callinfo></div>
+  <video id=remVideo width="400px" height="auto" autoplay controls style="display: none;"></video>
 
   <script>
-    alert(5);
+    alert(2);
     var callOptions = {
       'iceServers': [
         { url: 'stun:stun01.sipphone.com' },
@@ -60,37 +61,39 @@
     };
 
     var peer = new Peer({ config: callOptions });
-    var peerId;
-    peer.on('open', function (_peerId) {
-      peerId = _peerId
-      document.getElementById('peer-id').innerHTML += _peerId;
 
-      // Сервер отвечает
-      peer.on('call', function (call) {
-        console.log('%c aswer ', 'background: black; color: white;');
-        call.answer();
-        call.on('stream', function (stream) {
-          console.log('%c stream ', 'background: black; color: white;');
-          document.getElementById('player').srcObject = stream;
-        });
-      });
+    peer.on('open', function (peerID) {
+      document.getElementById('myid').innerHTML = peerID;
     });
 
-    // Клиент вызывает сервер и передаёт видео поток
-    document.getElementById('btn-connect').addEventListener('click', function sendStreem() {
+    var peercall;
+    peer.on('call', function (call) {
+      peercall = call;
+      peercall.answer();
+      setTimeout(function () {
+        var video = document.getElementById('remVideo');
+        video.srcObject = peercall.remoteStream;
+        video.onloadedmetadata = function (e) {
+          video.play();
+          video.style.display = 'block';
+        };
+      }, 1500);
+    });
+
+    document.getElementById('btn-call').addEventListener('click', function callToNode() {
+      var peerId = document.getElementById('otherPeerId').value;
       navigator.mediaDevices.getUserMedia({ audio: true, video: true })
         .then(function (mediaStream) {
-          var call = peer.call(peerId, mediaStream);
-          call.on('stream', function (mediaStream) {
-            document.getElementById('player').srcObject = mediaStream;
-          });
-        })
-        .catch(function (err) {
-          document.getElementById('log-error').innerHTML += "\n" + err.name + ": " + err.message;
+          var video = document.getElementById('myVideo');
+          peercall = peer.call(peerId, mediaStream);
+          video.srcObject = mediaStream;
+          video.onloadedmetadata = function (e) {
+            video.play();
+            video.style.display = 'block';
+          };
+        }).catch(function (err) {
+          console.log(err.name + ": " + err.message);
         });
     });
-
   </script>
 </body>
-
-</html>
