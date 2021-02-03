@@ -11,8 +11,8 @@
 <body>
   <p>
   <h3>ID: <span id=myid></span></h3></p>
-  <input id=otherPeerId type=text placeholder="otherPeerId"> <button
-    onclick="callToNode(document.getElementById('otherPeerId').value)">Вызов</button>
+  <input id=otherPeerId type=text placeholder="otherPeerId">
+  <button onclick="callToNode(document.getElementById('otherPeerId').value)">Вызов</button>
 
   <br>
   <video id=myVideo muted="muted" width="400px" height="auto"></video>
@@ -58,16 +58,20 @@
         }
       ]
     };
+
     var peer = new Peer({ config: callOptions });
+
     peer.on('open', function (peerID) {
       document.getElementById('myid').innerHTML = peerID;
     });
+
     var peercall;
     peer.on('call', function (call) {
       // Answer the call, providing our mediaStream
       peercall = call;
       document.getElementById('callinfo').innerHTML = "Входящий звонок <button onclick='callanswer()' >Принять</button><button onclick='callcancel()' >Отклонить</button>";
     });
+
     function callanswer() {
       navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(function (mediaStream) {
         var video = document.getElementById('myVideo');
@@ -90,6 +94,7 @@
 
       }).catch(function (err) { console.log(err.name + ": " + err.message); });
     }
+
     function callToNode(peerId) { //вызов
       navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(function (mediaStream) {
         var video = document.getElementById('myVideo');
