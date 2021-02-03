@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <title>Peer</title>
@@ -62,30 +63,30 @@
       peerId = _peerId
       document.getElementById('peer-id').innerHTML += _peerId;
 
-      peer.on('call', function(call) {
-        navigator.mediaDevices.getUserMedia ({ audio: true, video: true })
-          .then(function (mediaStream) {
-            call.answer(mediaStream);
-          })
-          .catch(function (err) {
-            document.getElementById('log-error').innerHTML += "\n" + err.name + ": " + err.message;
-          });
+      // Сервер отвечает
+      peer.on('call', function (call) {
+        call.answer();
+        call.on('stream', function (stream) {
+          document.getElementById('player').srcObject = stream;
+        })
       });
     });
 
-    // Server call
+    // Клиент вызывает сервер и передаёт видео поток
     document.getElementById('btn-connect').addEventListener('click', function sendStreem() {
-      if (peerId === undefined) {
-        document.getElementById('log-error').innerHTML += "\npeerId is undefined";
-      }
-      var call = peer.call(peerId);
-      document.getElementById('log-info').innerHTML += "\ncalling...";
-      call.on('stream', function(mediaStream) {
-        document.getElementById('player').srcObject = mediaStream;
-      });
-
+      navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+        .then(function (mediaStream) {
+          var call = peer.call(peerId, mediaStream);
+          call.on('stream', function (mediaStream) {
+            document.getElementById('player').srcObject = mediaStream;
+          });
+        })
+        .catch(function (err) {
+          document.getElementById('log-error').innerHTML += "\n" + err.name + ": " + err.message;
+        });
     });
 
   </script>
 </body>
+
 </html>
