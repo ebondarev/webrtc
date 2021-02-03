@@ -59,6 +59,7 @@
     var peer = new Peer({ config: callOptions });
     var peerId;
     peer.on('open', function (_peerId) {
+      peerId = _peerId
       document.getElementById('peer-id').innerHTML += _peerId;
 
       peer.on('call', function(call) {
