@@ -21,7 +21,7 @@
   <video id=remVideo width="400px" height="auto" autoplay controls style="display: none;"></video>
 
   <script>
-    alert(11);
+    alert(12);
     var callOptions = {
       'iceServers': [
         { url: 'stun:stun01.sipphone.com' },
@@ -70,7 +70,6 @@
     var peercall;
     peer.on('call', function (call) {
       peercall = call;
-      callanswer();
       peercall.answer();
       setTimeout(function () {
         var video = document.getElementById('remVideo');
