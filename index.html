@@ -20,7 +20,7 @@
   <video id=remVideo width="400px" height="auto"></video>
 
   <script>
-    alert(1);
+    alert(2);
     var callOptions = {
       'iceServers': [
         { url: 'stun:stun01.sipphone.com' },
@@ -101,18 +101,18 @@
         var video = document.getElementById('myVideo');
         peercall = peer.call(peerId, mediaStream);
         peercall.on('stream', function (stream) { //нам ответили, получим стрим
-          setTimeout(function () {
-            document.getElementById('remVideo').srcObject = peercall.remoteStream;
-            document.getElementById('remVideo').onloadedmetadata = function (e) {
-              document.getElementById('remVideo').play();
-            };
-          }, 1500);
+          // setTimeout(function () {
+          //   document.getElementById('remVideo').srcObject = peercall.remoteStream;
+          //   document.getElementById('remVideo').onloadedmetadata = function (e) {
+          //     document.getElementById('remVideo').play();
+          //   };
+          // }, 1500);
         });
         //  peercall.on('close', onCallClose);				  
-        video.srcObject = mediaStream;
-        video.onloadedmetadata = function (e) {
-          video.play();
-        };
+        // video.srcObject = mediaStream;
+        // video.onloadedmetadata = function (e) {
+        //   video.play();
+        // };
       }).catch(function (err) { console.log(err.name + ": " + err.message); });
     }
   </script>
