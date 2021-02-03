@@ -20,7 +20,7 @@
   <video id=remVideo width="400px" height="auto" autoplay></video>
 
   <script>
-    alert(4);
+    alert(5);
     var callOptions = {
       'iceServers': [
         { url: 'stun:stun01.sipphone.com' },
@@ -76,7 +76,7 @@
     function callanswer() {
       navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(function (mediaStream) {
         var video = document.getElementById('myVideo');
-        peercall.answer(mediaStream); // отвечаем на звонок и передаем свой медиапоток собеседнику
+        peercall.answer(/*mediaStream*/); // отвечаем на звонок и передаем свой медиапоток собеседнику
         //peercall.on ('close', onCallClose); //можно обработать закрытие-обрыв звонка
         video.srcObject = mediaStream; //помещаем собственный медиапоток в объект видео (чтоб видеть себя)
         document.getElementById('callinfo').innerHTML = "Звонок начат... <button onclick='callclose()' >Завершить звонок</button>"; //информируем, что звонок начат, и выводим кнопку Завершить
