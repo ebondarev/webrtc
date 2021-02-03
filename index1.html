@@ -8,6 +8,13 @@
 
 <body>
   <div id="peer-id">Id: </div>
+  <div>
+    <input type="text" placeholder="input id" id="input-id"></input>
+    <button id="btn-connect">Connect</button>
+  </div>
+  <video id="player"></video>
+  <div id="log-info"></div>
+  <div id="log-error">Errors:</div>
 
   <script>
     var callOptions = {
@@ -50,8 +57,31 @@
     };
 
     var peer = new Peer({ config: callOptions });
-    peer.on('open', function (peerId) {
-      document.getElementById('peer-id').innerHTML += peerId
+    var peerId;
+    peer.on('open', function (_peerId) {
+      document.getElementById('peer-id').innerHTML += _peerId;
+
+      peer.on('call', function(call) {
+        navigator.mediaDevices.getUserMedia ({ audio: true, video: true })
+          .then(function (mediaStream) {
+            call.answer(mediaStream);
+          })
+          .catch(function (err) {
+            document.getElementById('log-error').innerHTML += "\n" + err.name + ": " + err.message;
+          });
+      });
+    });
+
+    // Server call
+    document.getElementById('btn-connect').addEventListener('click', function sendStreem() {
+      if (peerId === undefined) {
+        document.getElementById('log-error').innerHTML += "\npeerId is undefined";
+      }
+      var call = peer.call(peerId);
+    });
+
+    call.on('stream', function(mediaStream) {
+      document.getElementById('player').srcObject = mediaStream;
     });
 
   </script>
