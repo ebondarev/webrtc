@@ -66,8 +66,10 @@
 
       // Сервер отвечает
       peer.on('call', function (call) {
+        console.log('%c aswer ', 'background: black; color: white;');
         call.answer();
         call.on('stream', function (stream) {
+          console.log('%c stream ', 'background: black; color: white;');
           document.getElementById('player').srcObject = stream;
         });
       });
