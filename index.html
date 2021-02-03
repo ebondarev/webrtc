@@ -84,14 +84,15 @@
         // video.onloadedmetadata = function (e) {//запускаем воспроизведение, когда объект загружен
         //   video.play();
         // };
-        // setTimeout(function () {
+        console.log('%c callanswer ', 'background: black; color: white;');
+        setTimeout(function () {
         //   //входящий стрим помещаем в объект видео для отображения
           document.getElementById('remVideo').srcObject = peercall.remoteStream;
-        //   document.getElementById('remVideo').onloadedmetadata = function (e) {
-        //     // и запускаем воспроизведение когда объект загружен
-        //     document.getElementById('remVideo').play();
-        //   };
-        // }, 1500);
+          document.getElementById('remVideo').onloadedmetadata = function (e) {
+            // и запускаем воспроизведение когда объект загружен
+            document.getElementById('remVideo').play();
+          };
+        }, 1500);
 
 
       // }).catch(function (err) { console.log(err.name + ": " + err.message); });
