@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultant</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h2,
+        .input-container,
+        .btn-container,
+        .video-container {
+            text-align: center;
+        }
+
+        .video-container {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Консультант</h2>
+
+    <div class="input-container">
+        <input id="input-id" type="text" placeholder="Client id" />
+    </div>
+    <br />
+    <div class="btn-container">
+        <button id="btn-call">Вызов</button>
+    </div>
+
+    <div class="video-container">
+        <video id="video" controls muted autoplay></video>
+    </div>
+
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script>
+        (function () {
+            var inputId = document.getElementById('input-id');
+            var btnCall = document.getElementById('btn-call');
+            var callOptions = {
+                'iceServers': [
+                    { url: 'stun:stun01.sipphone.com' },
+                    { url: 'stun:stun.ekiga.net' },
+                    { url: 'stun:stun.fwdnet.net' },
+                    { url: 'stun:stun.ideasip.com' },
+                    { url: 'stun:stun.iptel.org' },
+                    { url: 'stun:stun.rixtelecom.se' },
+                    { url: 'stun:stun.schlund.de' },
+                    { url: 'stun:stun.l.google.com:19302' },
+                    { url: 'stun:stun1.l.google.com:19302' },
+                    { url: 'stun:stun2.l.google.com:19302' },
+                    { url: 'stun:stun3.l.google.com:19302' },
+                    { url: 'stun:stun4.l.google.com:19302' },
+                    { url: 'stun:stunserver.org' },
+                    { url: 'stun:stun.softjoys.com' },
+                    { url: 'stun:stun.voiparound.com' },
+                    { url: 'stun:stun.voipbuster.com' },
+                    { url: 'stun:stun.voipstunt.com' },
+                    { url: 'stun:stun.voxgratia.org' },
+                    { url: 'stun:stun.xten.com' },
+                    {
+                        url: 'turn:numb.viagenie.ca',
+                        credential: 'muazkh',
+                        username: 'webrtc@live.com'
+                    },
+                    {
+                        url: 'turn:192.158.29.39:3478?transport=udp',
+                        credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+                        username: '28224511:1379330808'
+                    },
+                    {
+                        url: 'turn:192.158.29.39:3478?transport=tcp',
+                        credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+                        username: '28224511:1379330808'
+                    }
+                ]
+            };
+
+            var peer = new Peer({ config: callOptions });
+
+            btnCall.addEventListener('click', function () {
+                navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+                    .then(function (mediaStream) {
+                        var video = document.getElementById('video');
+                        peercall = peer.call(inputId.value, mediaStream);
+                        video.srcObject = mediaStream;
+                    }).catch(function (err) {
+                        console.log(err.name + ": " + err.message);
+                    });
+            });
+
+        })();
+    </script>
+</body>
+
+</html>
