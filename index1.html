@@ -13,7 +13,7 @@
     <button id="btn-connect">Connect</button>
   </div>
   <video id="player"></video>
-  <div id="log-info"></div>
+  <div id="log-infov"></div>
   <div id="log-error">Errors:</div>
 
   <script>
@@ -79,10 +79,11 @@
         document.getElementById('log-error').innerHTML += "\npeerId is undefined";
       }
       var call = peer.call(peerId);
-    });
+      document.getElementById('log-info').innerHTML += "\ncalling...";
+      call.on('stream', function(mediaStream) {
+        document.getElementById('player').srcObject = mediaStream;
+      });
 
-    call.on('stream', function(mediaStream) {
-      document.getElementById('player').srcObject = mediaStream;
     });
 
   </script>
