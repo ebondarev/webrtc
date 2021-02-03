@@ -20,7 +20,7 @@
   <video id=remVideo width="400px" height="auto" autoplay></video>
 
   <script>
-    alert(6);
+    alert(7);
     var callOptions = {
       'iceServers': [
         { url: 'stun:stun01.sipphone.com' },
@@ -76,7 +76,7 @@
 
     function callanswer() {
       // navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(function (mediaStream) {
-        // var video = document.getElementById('myVideo');
+        var video = document.getElementById('myVideo');
         peercall.answer(/*mediaStream*/); // отвечаем на звонок и передаем свой медиапоток собеседнику
         //peercall.on ('close', onCallClose); //можно обработать закрытие-обрыв звонка
         // video.srcObject = mediaStream; //помещаем собственный медиапоток в объект видео (чтоб видеть себя)
@@ -86,7 +86,7 @@
         // };
         // setTimeout(function () {
         //   //входящий стрим помещаем в объект видео для отображения
-        //   document.getElementById('remVideo').srcObject = peercall.remoteStream;
+          document.getElementById('remVideo').srcObject = peercall.remoteStream;
         //   document.getElementById('remVideo').onloadedmetadata = function (e) {
         //     // и запускаем воспроизведение когда объект загружен
         //     document.getElementById('remVideo').play();
