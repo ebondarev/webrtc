@@ -30,13 +30,13 @@
         <button id="btn-copy">Копировать id</button>
     </div>
     <div class="video-container">
-        <video id="video" controls autoplay muted></video>
+        <video id="video" controls autoplay muted playsinline></video>
     </div>
     <button id="answer">Принять</button>
 
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script>
-        alert(5);
+        alert(6);
         (function () {
             var clientIdContainer = document.getElementById('client-id');
             var btnCopyId = document.getElementById('btn-copy');
@@ -94,18 +94,13 @@
                 document.body.appendChild(span);
                 call.answer();
                 // setTimeout(function () {
-                //     var video = document.getElementById('video');
-                //     video.srcObject = call.remoteStream;
-                // });
-                setTimeout(function () {
-                    //входящий стрим помещаем в объект видео для отображения
                     var video = document.getElementById('video');
                     video.srcObject = call.remoteStream;
                     video.onloadedmetadata = function (e) {
                         // и запускаем воспроизведение когда объект загружен
                         video.play();
                     };
-                }, 1500);
+                // }, 1500);
             });
 
             answer.addEventListener('click', function () {
