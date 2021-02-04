@@ -89,6 +89,7 @@
             });
 
             peer.on('call', function (call) {
+                alert('call');
                 call.answer();
                 setTimeout(function () {
                     var video = document.getElementById('video');
